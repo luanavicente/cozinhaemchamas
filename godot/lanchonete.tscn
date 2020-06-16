@@ -27,4 +27,4 @@ visible = false
 script = ExtResource( 4 )
 
 [node name="Camera" type="Camera" parent="player"]
-transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 6, 4 )
+transform = Transform( 1, 0, 0, 0, 0.707107, 0.707107, 0, -0.707107, 0.707107, 0, 5, 4 )
