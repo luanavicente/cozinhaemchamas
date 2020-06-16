@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://floor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://walls.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://balcao.dae" type="PackedScene" id=5]
 [ext_resource path="res://frigideira.dae" type="PackedScene" id=6]
 [ext_resource path="res://caixapao.glb" type="PackedScene" id=7]
+[ext_resource path="res://prato.glb" type="PackedScene" id=8]
 
 [node name="Spatial" type="Spatial"]
 
@@ -49,3 +50,6 @@ omni_range = 24.3676
 
 [node name="caixapao" parent="." instance=ExtResource( 7 )]
 transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -2, 1.68847, 9 )
+
+[node name="prato" parent="." instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.46435, 4.33367, 2.6269 )

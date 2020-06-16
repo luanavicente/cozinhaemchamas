@@ -2,6 +2,7 @@ extends KinematicBody
 
 var speed = 400
 var direction = Vector3()
+var velocity = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -16,7 +17,7 @@ func _physics_process(delta):
 	if Input.is_action_pressed("ui_right"):
 		rotate_y(deg2rad(-90*delta))
 	if Input.is_action_pressed("ui_up"):
-		direction.y += 1
+		direction.z += 1
 	if Input.is_action_pressed("ui_down"):
-		direction.y -= 1
-	move_and_slide(direction*delta*speed,Vector3(0,0,1))
+		direction.z -= 1	
+	move_and_slide(direction*delta*speed,Vector3(0,1,0))
