@@ -16,6 +16,7 @@ _global_script_class_icons={
 [application]
 
 config/name="projeto"
+run/main_scene="res://lanchonete.tscn"
 config/icon="res://icon.png"
 
 [rendering]

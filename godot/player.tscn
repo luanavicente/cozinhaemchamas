@@ -16,3 +16,5 @@ material/0 = null
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 3 )
+
+[node name="Sprite3D" type="Sprite3D" parent="."]

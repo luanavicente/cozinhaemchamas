@@ -1,6 +1,6 @@
 extends KinematicBody
 
-var speed = 400
+var speed = 10
 var direction = Vector3()
 
 # Called when the node enters the scene tree for the first time.
@@ -20,4 +20,4 @@ func _physics_process(delta):
 	if Input.is_action_pressed("ui_down"):
 		direction.z += 1
 	direction = direction.normalized()
-	move_and_slide(direction*speed*delta,Vector3(0,1,0))
+	move_and_slide(direction*speed,Vector3(0,1,0))
