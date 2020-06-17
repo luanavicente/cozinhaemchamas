@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/balcao.dae-a5ca72bedf21de300a636700e825fe4a.scn"
+path="res://.import/balcao.glb-0b3f0405b66b7e56227ffa96b139a5ec.scn"
 
 [deps]
 
-source_file="res://balcao.dae"
-dest_files=[ "res://.import/balcao.dae-a5ca72bedf21de300a636700e825fe4a.scn" ]
+source_file="res://balcao.glb"
+dest_files=[ "res://.import/balcao.glb-0b3f0405b66b7e56227ffa96b139a5ec.scn" ]
 
 [params]
 
