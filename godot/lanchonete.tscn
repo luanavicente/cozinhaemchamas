@@ -27,7 +27,6 @@ transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -10, 0,
 
 [node name="player" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 1.06581e-14, 0, -1.06581e-14, 1, 0, 1, 0 )
-visible = false
 script = ExtResource( 4 )
 
 [node name="Camera" type="Camera" parent="player"]
@@ -49,7 +48,7 @@ omni_range = 24.3676
 transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, -2, 1.68847, 9 )
 
 [node name="balcao" parent="." instance=ExtResource( 5 )]
-transform = Transform( 0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -5.70318, 3, 0 )
+transform = Transform( 0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -5.70318, 3.07226, 0 )
 
 [node name="prato" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.48373, 5.24429, 2.65914 )
