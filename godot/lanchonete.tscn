@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://floor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://walls.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://frigideira.dae" type="PackedScene" id=6]
 [ext_resource path="res://caixapao.glb" type="PackedScene" id=7]
 [ext_resource path="res://prato.tscn" type="PackedScene" id=8]
+[ext_resource path="res://hamburguer.tscn" type="PackedScene" id=9]
 
 [node name="Spatial" type="Spatial"]
 
@@ -27,6 +28,7 @@ transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -10, 0,
 
 [node name="player" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 1.06581e-14, 0, -1.06581e-14, 1, 0, 1, 0 )
+visible = false
 script = ExtResource( 4 )
 
 [node name="Camera" type="Camera" parent="player"]
@@ -52,3 +54,6 @@ transform = Transform( 0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -5.70318, 3.07226, 0 )
 
 [node name="prato" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.48373, 5.24429, 2.65914 )
+
+[node name="hamburguer" parent="." instance=ExtResource( 9 )]
+transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 1.28338, 5.04012, -6.2492 )
