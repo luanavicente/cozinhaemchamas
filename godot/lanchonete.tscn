@@ -47,7 +47,7 @@ transform = Transform( 0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -5.70318, 3.07226, 0 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.48373, 5.24429, 2.65914 )
 
 [node name="hamburguer" parent="." instance=ExtResource( 9 )]
-transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 4.25937, 8.01688, -1.57223 )
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 4.25937, 8.01688, -1.57223 )
 
 [node name="Player" parent="." instance=ExtResource( 10 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.78278, 1.72904 )
