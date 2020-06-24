@@ -19,9 +19,12 @@ func _process(d):
 	if $Yaw/Camera/InteractionRay.is_colliding():
 		var x = $Yaw/Camera/InteractionRay.get_collider()
 		if x.has_method("pick_up"):
-			$interaction_text.set_text("[Space]  Pick up: " + x.get_name())
+			$interaction_text.set_text("[V]  Pick up: " + x.get_name())
 		else:
-			$interaction_text.set_text("")
+			if x.has_method("drop_it") and carried_object != null:
+				$interaction_text.set_text("[C]  Drop it: " + carried_object.get_name())
+			else:
+				$interaction_text.set_text("")
 	else:
 		$interaction_text.set_text("")
 	var dir = (get_node("Yaw/Camera/look_at").get_global_transform().origin - get_node("Yaw/Camera").get_global_transform().origin).normalized()
@@ -55,18 +58,23 @@ func _apply_gravity(delta):
 #interações
 func _input(event):
 
-	if event.is_action_pressed("reset"):
-		get_tree().reload_current_scene()
-
 	# pegar objeto
 	if event.is_action_pressed("pick_up"):
 		if carried_object != null:
-			carried_object.pick_up(self)
+			carried_object.pick_up(self,'im_player')
 		else:
 			if $Yaw/Camera/InteractionRay.is_colliding():
 				var x = $Yaw/Camera/InteractionRay.get_collider()
 				if x.has_method("pick_up"):
-					x.pick_up(self)
+					x.pick_up(self,'im_player')
+	
+	# dropar objeto
+	if event.is_action_pressed("drop_it"):
+		if carried_object != null:
+			if $Yaw/Camera/InteractionRay.is_colliding():
+				var x = $Yaw/Camera/InteractionRay.get_collider()
+				if x.has_method("drop_it"):
+					x.drop_it(self,carried_object)
 
 	# interagir - frigideira, prato
 	if event.is_action_pressed("interact"):

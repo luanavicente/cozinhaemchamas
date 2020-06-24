@@ -2,11 +2,12 @@
 extends RigidBody
 
 var picked_up
-
+var is_holder_player
 var holder
 
-func pick_up(player):
+func pick_up(player,is_player):
 	holder = player
+	is_holder_player = is_player
 
 	if picked_up:
 		leave()
@@ -15,8 +16,12 @@ func pick_up(player):
 
 func _process(delta):
 	if picked_up:
-		set_global_transform(holder.get_node("Yaw/Camera/pickup_pos").get_global_transform())
-
+		if is_holder_player:
+			set_global_transform(holder.get_node("Yaw/Camera/pickup_pos").get_global_transform())
+		else:
+			set_global_transform(holder.get_node("holding").get_global_transform())
+			set_scale(Vector3(0.5,0.5,0.5))
+			
 func carry():
 	$CollisionShape.set_disabled(true)
 	holder.carried_object = self
@@ -28,9 +33,3 @@ func leave():
 	holder.carried_object = null
 	self.set_mode(0)
 	picked_up = false
-
-
-
-func throw(power):
-	leave()
-	apply_impulse(Vector3(), holder.look_vector * Vector3(power, power, power))
