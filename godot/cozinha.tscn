@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://frigideira.dae" type="PackedScene" id=1]
+[ext_resource path="res://prato.tscn" type="PackedScene" id=2]
+[ext_resource path="res://balcao.tscn" type="PackedScene" id=3]
+
+[node name="Spatial" type="Spatial"]
+
+[node name="frigideira" parent="." instance=ExtResource( 1 )]
+transform = Transform( -3.49691e-08, 0, 0.8, 0, 0.8, 0, -0.8, 0, -3.49691e-08, -5.70237, 5.7265, 2 )
+
+[node name="frigideira2" parent="." instance=ExtResource( 1 )]
+transform = Transform( -3.49691e-08, 0, 0.8, 0, 0.8, 0, -0.8, 0, -3.49691e-08, -5.70237, 5.7265, -2.44837 )
+
+[node name="balcao" parent="." instance=ExtResource( 3 )]
+transform = Transform( 0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -5.70318, 3.07226, 0 )
+
+[node name="prato" parent="." instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 4.48373, 5.24429, 2.65914 )
