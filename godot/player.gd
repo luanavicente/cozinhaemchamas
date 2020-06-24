@@ -2,6 +2,9 @@ extends KinematicBody
 
 var carried_object = null
 
+var view_sensitivity = 0.15
+var pitch = 0
+
 # Controls
 var velocity = Vector3()
 var yaw = 0
@@ -9,12 +12,11 @@ var look_vector = Vector3()
 
 # Physics
 var gravity = -40
-
+	
 func _ready():
-	pass
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 func _process(d):
-
 	#interações
 	if $Yaw/Camera/InteractionRay.is_colliding():
 		var x = $Yaw/Camera/InteractionRay.get_collider()
@@ -27,8 +29,17 @@ func _process(d):
 				$interaction_text.set_text("")
 	else:
 		$interaction_text.set_text("")
+		
 	var dir = (get_node("Yaw/Camera/look_at").get_global_transform().origin - get_node("Yaw/Camera").get_global_transform().origin).normalized()
 	look_vector = dir
+	
+#move a câmera com o mouse
+func _unhandled_input(event):
+	if event is InputEventMouseMotion:
+		yaw = fmod(yaw - event.relative.x * view_sensitivity, 360)
+		pitch = max(min(pitch - event.relative.y * view_sensitivity, 89), -89)
+		$Yaw.rotation = Vector3(0, deg2rad(yaw), 0)
+		$Yaw/Camera.rotation = Vector3(deg2rad(pitch), 0, 0)
 
 func _physics_process(delta):
 	_process_movements(delta)
