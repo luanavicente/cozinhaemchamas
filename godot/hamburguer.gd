@@ -24,11 +24,11 @@ func _process(delta):
 		match [holder.get_name()]:
 			['Player']:
 				position = "Yaw/Camera/pickup_pos"
-			['plate']:
+			['prato']:
 				position = "holding"
 			['caixacarne']:
 				position = "top"
-	if picked_up:
+	if picked_up or in_plate:
 		if is_holder_player:
 			set_global_transform(holder.get_node(position).get_global_transform())
 		else:

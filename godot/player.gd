@@ -4,6 +4,7 @@ var carried_object = null
 var move_speed = 8
 var view_sensitivity = 0.5
 var pitch = 0
+var is_holding
 
 #mover
 var speed = 400
@@ -29,7 +30,7 @@ func _process(d):
 	if $Yaw/Camera/InteractionRay.is_colliding():
 		var x = $Yaw/Camera/InteractionRay.get_collider()
 		var teste = x.get_name()
-		if x.has_method("pick_up"):
+		if x.has_method("pick_up") and carried_object == null:
 			$interaction_text.set_text("[V]  Pick up: " + x.get_name())
 		elif x.has_method("drop_it") and carried_object != null:
 			$interaction_text.set_text("[C]  Drop it: " + carried_object.get_name())
