@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://floor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://walls.tscn" type="PackedScene" id=2]
@@ -8,7 +8,6 @@
 [ext_resource path="res://frigideira.dae" type="PackedScene" id=6]
 [ext_resource path="res://caixabatata.tscn" type="PackedScene" id=7]
 [ext_resource path="res://prato.tscn" type="PackedScene" id=8]
-[ext_resource path="res://hamburguer.tscn" type="PackedScene" id=9]
 [ext_resource path="res://playerv2.tscn" type="PackedScene" id=10]
 [ext_resource path="res://caixacarne.tscn" type="PackedScene" id=11]
 [ext_resource path="res://caixapao.tscn" type="PackedScene" id=12]
@@ -51,9 +50,6 @@ omni_range = 24.3676
 
 [node name="balcao" parent="." instance=ExtResource( 5 )]
 transform = Transform( 0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -5.70318, 3.07226, -2.32373 )
-
-[node name="hamburguer" parent="." instance=ExtResource( 9 )]
-transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 4.88748, 8.01688, -5.14534 )
 
 [node name="Player" parent="." instance=ExtResource( 10 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.78278, 5.05962 )

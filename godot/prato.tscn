@@ -112,4 +112,4 @@ transform = Transform( 1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0, 0 )
 shape = SubResource( 14 )
 
 [node name="holding" type="Position3D" parent="."]
-transform = Transform( 0.413479, 0, 0, 0, -0.0392945, 0, 0, 0, 0.440084, 0, 0.0308599, 0 )
+transform = Transform( 0.413479, 0, 0, 0, -0.0392945, 0, 0, 0, 0.440084, 0, 0.50234, 0 )

@@ -4,7 +4,7 @@ var carried_object
 var is_holding
 
 func more_food(player):
-	var QUEIJO = preload("res://hamburguer.tscn")
+	var QUEIJO = preload("res://queijo.tscn")
 	var queijo_inst = QUEIJO.instance()
 	self.add_child(queijo_inst)
 	carried_object = queijo_inst

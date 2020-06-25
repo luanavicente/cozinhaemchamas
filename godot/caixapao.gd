@@ -4,7 +4,7 @@ var carried_object
 var is_holding
 
 func more_food(player):
-	var PAO = preload("res://hamburguer.tscn")
+	var PAO = preload("res://pao.tscn")
 	var pao_inst = PAO.instance()
 	self.add_child(pao_inst)
 	carried_object = pao_inst
