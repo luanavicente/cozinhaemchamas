@@ -35,10 +35,17 @@ func change_models(object):
 				'hamburguer':
 					pass
 				'pao':
-					object.get_parent().remove_child(object)
+					var player = object.get_parent()
+					player.remove_child(object)
+					player.is_holding = false
+					player.carried_object = null
+					
 					var PAO_BURGUI = preload("res://batatas.tscn")
 					var pao_burgui_inst = PAO_BURGUI.instance()
-					$holding.add_child(pao_burgui_inst)
+					add_child(pao_burgui_inst)
+					pao_burgui_inst.set_global_transform(self.get_node("holding").get_global_transform())
+					pao_burgui_inst.set_scale(Vector3(0.3,0.3,0.3))
+
 				'queijo':
 					pass
 				'tomate':
