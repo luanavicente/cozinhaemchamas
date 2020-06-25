@@ -14,5 +14,8 @@ func hold(player,object):
 	carried_object = object
 	object.holder = self
 	object.is_holder_player = false
+	object.picked_up = false
+	object.in_plate = true
 	player.carried_object = null
 	is_holding = true
+	carried_object.leave()

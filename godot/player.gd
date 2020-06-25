@@ -1,9 +1,14 @@
 extends KinematicBody
 
 var carried_object = null
-
-var view_sensitivity = 0.15
+var move_speed = 8
+var view_sensitivity = 0.5
 var pitch = 0
+
+#mover
+var speed = 400
+var direction = Vector3()
+var facing = Vector3(0,0,0)
 
 # Controls
 var velocity = Vector3()
@@ -12,14 +17,18 @@ var look_vector = Vector3()
 
 # Physics
 var gravity = -40
+
+#slope variables
+const MAX_SLOPE_ANGLE = 60
 	
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 func _process(d):
-	#interações
+	#Mensagens de interações
 	if $Yaw/Camera/InteractionRay.is_colliding():
 		var x = $Yaw/Camera/InteractionRay.get_collider()
+		var teste = x.get_name()
 		if x.has_method("pick_up"):
 			$interaction_text.set_text("[V]  Pick up: " + x.get_name())
 		else:
@@ -41,26 +50,35 @@ func _unhandled_input(event):
 		$Yaw.rotation = Vector3(0, deg2rad(yaw), 0)
 		$Yaw/Camera.rotation = Vector3(deg2rad(pitch), 0, 0)
 
+#anda pra lá e pra cá
 func _physics_process(delta):
-	_process_movements(delta)
+	var up = Input.is_action_pressed("ui_up")
+	var down = Input.is_action_pressed("ui_down")
+	var left = Input.is_action_pressed("ui_left")
+	var right = Input.is_action_pressed("ui_right")
 
-#mover
-var speed = 400
-var direction = Vector3()
-var facing = Vector3(0,0,0)
+	var aim = $Yaw/Camera.get_camera_transform().basis
 
-func _process_movements(delta):
-	direction = Vector3(0,0,0)
-	if Input.is_action_pressed("ui_left"):
-		rotate_y(deg2rad(90*delta))
-	if Input.is_action_pressed("ui_right"):
-		rotate_y(deg2rad(-90*delta))
-	if Input.is_action_pressed("ui_up"):
-		facing = -global_transform.basis.z
-	if Input.is_action_pressed("ui_down"):
-		facing = global_transform.basis.z
-	move_and_slide(facing*delta*speed,Vector3(0,0,1))
-	facing = Vector3(0,0,0)
+	direction = Vector3()
+
+	if up:
+		direction -= aim[2]
+	if down:
+		direction += aim[2]
+	if left:
+		direction -= aim[0]
+	if right:
+		direction += aim[0]
+
+	var hvel = velocity
+	hvel.y = 0
+	var target = direction * move_speed
+
+	hvel = hvel.linear_interpolate(target, move_speed * delta)
+	velocity.x = hvel.x
+	velocity.z = hvel.z
+
+	velocity = move_and_slide(velocity, Vector3(0, 1, 0), 0.05, 4, deg2rad(MAX_SLOPE_ANGLE))
 
 #gravidade
 func _apply_gravity(delta):
@@ -72,12 +90,12 @@ func _input(event):
 	# pegar objeto
 	if event.is_action_pressed("pick_up"):
 		if carried_object != null:
-			carried_object.pick_up(self,'im_player')
+			carried_object.pick_up(self,true)
 		else:
 			if $Yaw/Camera/InteractionRay.is_colliding():
 				var x = $Yaw/Camera/InteractionRay.get_collider()
 				if x.has_method("pick_up"):
-					x.pick_up(self,'im_player')
+					x.pick_up(self,true)
 	
 	# dropar objeto
 	if event.is_action_pressed("drop_it"):
@@ -86,12 +104,3 @@ func _input(event):
 				var x = $Yaw/Camera/InteractionRay.get_collider()
 				if x.has_method("drop_it"):
 					x.drop_it(self,carried_object)
-
-	# interagir - frigideira, prato
-	if event.is_action_pressed("interact"):
-		if $Yaw/Camera/InteractionRay.is_colliding():
-			var x = $Yaw/Camera/InteractionRay.get_collider()
-			print("COLLIDING")
-			print(x.get_name())
-			if x.has_method("interact"):
-				x.interact(self)
