@@ -60,16 +60,16 @@ script = ExtResource( 3 )
 transform = Transform( -0.0347949, 0, 0.999394, 0, 1, 0, -0.999394, 0, -0.0347949, 0.621051, 6.66083, -9.83993 )
 
 [node name="caixabatata" parent="." instance=ExtResource( 7 )]
-transform = Transform( -1.57218e-07, -1, 0, 0.965, -1.62921e-07, 0, 0, 0, 1, 6.35996, 1.47541, 8.805 )
+transform = Transform( -3.25841e-07, -1, 0, 2, -1.62921e-07, 0, 0, 0, 1, 6.35996, 1.47541, 8.805 )
 
 [node name="caixacarne" parent="." instance=ExtResource( 11 )]
-transform = Transform( -4.00833e-08, -1, 0, 0.917, -4.37114e-08, 0, 0, 0, 1, 2.48939, 1.44045, 8.82149 )
+transform = Transform( -8.74228e-08, -1, 0, 2, -4.37114e-08, 0, 0, 0, 1, 2.48939, 1.44045, 8.82149 )
 
 [node name="caixapao" parent="." instance=ExtResource( 12 )]
-transform = Transform( -1.42881e-07, -1, 0, 0.877, -1.62921e-07, 0, 0, 0, 1, -1.20615, 1.39109, 8.82104 )
+transform = Transform( -3.25841e-07, -1, 0, 2, -1.62921e-07, 0, 0, 0, 1, -1.20615, 1.39109, 8.82104 )
 
 [node name="caixaqueijo" parent="." instance=ExtResource( 13 )]
-transform = Transform( -1.42719e-07, -1, 0, 0.876, -1.62921e-07, 0, 0, 0, 1, -4.48415, 1.40344, 8.81126 )
+transform = Transform( -3.25841e-07, -1, 0, 2, -1.62921e-07, 0, 0, 0, 1, -4.48415, 1.40344, 8.81126 )
 
 [node name="caixatomate" parent="." instance=ExtResource( 14 )]
-transform = Transform( -1.40926e-07, -1, 0, 0.865, -1.62921e-07, 0, 0, 0, 1, -7.80461, 1.39997, 8.82802 )
+transform = Transform( -3.25841e-07, -1, 0, 2, -1.62921e-07, 0, 0, 0, 1, -7.80461, 1.39997, 8.82802 )

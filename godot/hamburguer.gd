@@ -1,10 +1,10 @@
-
 extends RigidBody
 
 var picked_up
 var in_plate
 var is_holder_player
 var holder
+var position
 
 func pick_up(player,is_player):
 	if in_plate and is_player:
@@ -19,11 +19,20 @@ func pick_up(player,is_player):
 		carry()
 
 func _process(delta):
-	if picked_up or in_plate:
+	
+	if holder:
+		match [holder.get_name()]:
+			['Player']:
+				position = "Yaw/Camera/pickup_pos"
+			['plate']:
+				position = "holding"
+			['caixacarne']:
+				position = "top"
+	if picked_up:
 		if is_holder_player:
-			set_global_transform(holder.get_node("Yaw/Camera/pickup_pos").get_global_transform())
+			set_global_transform(holder.get_node(position).get_global_transform())
 		else:
-			set_global_transform(holder.get_node("holding").get_global_transform())
+			set_global_transform(holder.get_node(position).get_global_transform())
 			set_scale(Vector3(0.5,0.5,0.5))
 			
 func carry():

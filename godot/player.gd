@@ -31,11 +31,12 @@ func _process(d):
 		var teste = x.get_name()
 		if x.has_method("pick_up"):
 			$interaction_text.set_text("[V]  Pick up: " + x.get_name())
+		elif x.has_method("drop_it") and carried_object != null:
+			$interaction_text.set_text("[C]  Drop it: " + carried_object.get_name())
+		elif x.has_method("more_food") and carried_object == null:
+			$interaction_text.set_text("[B]  More food: " + x.get_name())
 		else:
-			if x.has_method("drop_it") and carried_object != null:
-				$interaction_text.set_text("[C]  Drop it: " + carried_object.get_name())
-			else:
-				$interaction_text.set_text("")
+			$interaction_text.set_text("")
 	else:
 		$interaction_text.set_text("")
 		
@@ -104,3 +105,9 @@ func _input(event):
 				var x = $Yaw/Camera/InteractionRay.get_collider()
 				if x.has_method("drop_it"):
 					x.drop_it(self,carried_object)
+	
+	# mais comida
+	if event.is_action_pressed("more_food"):
+		if $Yaw/Camera/InteractionRay.is_colliding():
+			var caixa = $Yaw/Camera/InteractionRay.get_collider()
+			caixa.more_food(self)

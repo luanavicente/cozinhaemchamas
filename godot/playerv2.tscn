@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Player.gd" type="Script" id=1]
 
@@ -9,11 +9,7 @@ mid_height = 2.0
 [sub_resource type="SpatialMaterial" id=2]
 metallic_specular = 0.4
 
-[sub_resource type="CapsuleShape" id=3]
-radius = 0.6
-height = 2.0
-
-[sub_resource type="SphereMesh" id=5]
+[sub_resource type="SphereMesh" id=3]
 
 [sub_resource type="GDScript" id=4]
 script/source = "extends Label
@@ -42,10 +38,6 @@ visible = false
 mesh = SubResource( 1 )
 material/0 = SubResource( 2 )
 
-[node name="Collision" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2, 0 )
-shape = SubResource( 3 )
-
 [node name="Yaw" type="Spatial" parent="."]
 
 [node name="Camera" type="Camera" parent="Yaw"]
@@ -67,7 +59,7 @@ cast_to = Vector3( 0, 0, -5 )
 
 [node name="bolinha" type="MeshInstance" parent="Yaw/Camera/InteractionRay"]
 transform = Transform( 0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, -5 )
-mesh = SubResource( 5 )
+mesh = SubResource( 3 )
 material/0 = null
 
 [node name="FPS" type="Label" parent="."]
