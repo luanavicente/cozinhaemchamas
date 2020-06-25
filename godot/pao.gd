@@ -8,9 +8,6 @@ var holder
 var position
 
 func pick_up(player,is_player):
-	print('oiiiiiiiii')
-	print(in_plate)
-	print(is_player)
 	if in_plate and is_player:
 		holder.is_holding = false
 	

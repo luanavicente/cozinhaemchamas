@@ -5,6 +5,9 @@ var move_speed = 8
 var view_sensitivity = 0.5
 var pitch = 0
 var is_holding
+var timer = 300
+var count = 0
+var entregou = false
 
 #mover
 var speed = 400
@@ -26,8 +29,10 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 func _process(d):
-	
 	self.transform.origin.y = 1.8
+	
+	if entregou:
+		count = count + 1
 	
 	#Mensagens de interações
 	if $Yaw/Camera/InteractionRay.is_colliding():
@@ -38,8 +43,14 @@ func _process(d):
 			$interaction_text.set_text("[C]  Drop it: " + carried_object.get_name())
 		elif x.has_method("more_food") and carried_object == null:
 			$interaction_text.set_text("[B]  More food: " + x.get_name())
-		elif x.has_method("deliver") and carried_object == null:
+		elif x.has_method("deliver") and carried_object == null and x.is_completed:
 			$interaction_text.set_text("[Space]  Deliver: " + x.get_name())
+		elif entregou and count < timer:
+			$interaction_text.set_text("Prato entregue! Parabéns!")
+		elif entregou and count >= timer:
+			entregou = false
+			count = 0
+			$interaction_text.set_text("")
 		else:
 			$interaction_text.set_text("")
 	else:
@@ -121,4 +132,6 @@ func _input(event):
 		if carried_object == null:
 			if $Yaw/Camera/InteractionRay.is_colliding():
 				var prato = $Yaw/Camera/InteractionRay.get_collider()
-				prato.deliver(self)
+				if prato.is_completed:
+					entregou = true
+					$interaction_text.set_text(prato.deliver(self))

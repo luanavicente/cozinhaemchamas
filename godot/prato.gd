@@ -13,9 +13,10 @@ func drop_it(player,object):
 func deliver(player):
 	if is_completed:
 		remove_child(get_node('lanche'))
-		player.get_node('interaction_text').set_text('Pedido entregue!')
+		is_completed = false
+		return 'Pedido entregue!'
 	else:
-		player.get_node('interaction_text').set_text('Complete o pedido antes de entregar!')
+		return ''
 
 func _process(delta):
 	self.transform.origin.y = 5.2
@@ -23,7 +24,8 @@ func _process(delta):
 	self.transform.origin.z = -1.25
 	
 func hold(player,object):
-	is_completed = false
+	if object.get_name() != 'lanche':
+		is_completed = false
 	carried_object = object
 	object.holder = self
 	object.is_holder_player = false
@@ -36,6 +38,9 @@ func hold(player,object):
 func change_models(object):
 	var on_plate = carried_object.get_name()
 	var put_on_plate = object.get_name()
+	
+	print(put_on_plate)
+	print(on_plate)
 	
 	if not put_on_plate in on_plate:
 		carried_object.get_parent().remove_child(carried_object)
@@ -117,7 +122,7 @@ func change_models(object):
 					file = preload("res://hamburguer_queijo_tomate.tscn")
 				'pao':
 					file = preload("res://pao_hamburguer_queijo.tscn")
-		'tomate_queijo':
+		'queijo_tomate':
 			is_completed = false
 			match put_on_plate:
 				'hamburguer':
@@ -139,7 +144,7 @@ func change_models(object):
 				'hamburguer':
 					is_completed = true
 					file = preload("res://lanche.tscn")
-		'hamburguer_tomate_queijo':
+		'hamburguer_queijo_tomate':
 			match put_on_plate:
 				'pao':
 					is_completed = true
@@ -147,6 +152,7 @@ func change_models(object):
 
 	var instance = file.instance()
 	add_child(instance)
+	carried_object = instance
 	instance.holder = self
 	instance.is_holder_player = false
 	instance.in_plate = true
