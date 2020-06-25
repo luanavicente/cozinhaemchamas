@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://tomate.tscn" type="PackedScene" id=1]
+[ext_resource path="res://pao.tscn" type="PackedScene" id=2]
+
+[node name="pao" instance=ExtResource( 2 )]
+
+[node name="top" parent="." index="0"]
+transform = Transform( 1.1, 0, 0, 0, 0.65, 0, 0, 0, 1.1, 0, 0.106085, 0 )
+
+[node name="CollisionShape" parent="." index="1"]
+transform = Transform( 1.1, 0, 0, 0, 0.65, 0, 0, 0, 1.1, 0, 0.106085, 0 )
+
+[node name="tomate" parent="." index="8" instance=ExtResource( 1 )]
+transform = Transform( 0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 0, -0.110224, 0.318935 )
+
+[node name="tomate2" parent="tomate" index="31" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 0.989561, 0.0720572, 0, -0.288229, 0.989561, 0, 0.0738865, -1.60979 )
