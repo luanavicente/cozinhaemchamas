@@ -28,55 +28,50 @@ func change_models(object):
 	var on_plate = carried_object.get_name()
 	var put_on_plate = object.get_name()
 	
+	if not put_on_plate in on_plate:
+		carried_object.get_parent().remove_child(carried_object)
+		var player = object.get_parent()
+		player.remove_child(object)
+		player.is_holding = false
+		player.carried_object = null
+
+	var file
 	match on_plate:
 		'hamburguer':
-			carried_object.get_parent().remove_child(carried_object)
 			match put_on_plate:
-				'hamburguer':
-					pass
 				'pao':
-					var player = object.get_parent()
-					player.remove_child(object)
-					player.is_holding = false
-					player.carried_object = null
-					
-					var PAO_BURGUI = preload("res://batatas.tscn")
-					var pao_burgui_inst = PAO_BURGUI.instance()
-					add_child(pao_burgui_inst)
-					pao_burgui_inst.set_global_transform(self.get_node("holding").get_global_transform())
-					pao_burgui_inst.set_scale(Vector3(0.3,0.3,0.3))
-
+					file = preload("res://pao_carne.tscn")
 				'queijo':
-					pass
+					file = preload("res://hamburguer_queijo.tscn")
 				'tomate':
-					pass
+					file = preload("res://hamburguer_tomate.tscn")
 		'pao':
 			match put_on_plate:
 				'hamburguer':
-					pass
-				'pao':
-					pass
+					file = preload("res://pao_carne.tscn")
 				'queijo':
-					pass
+					file = preload("res://pao_queijo.tscn")
 				'tomate':
-					pass
+					file = preload("res://pao_tomate.tscn")
 		'queijo':
 			match put_on_plate:
 				'hamburguer':
-					pass
+					file = preload("res://hamburguer_queijo.tscn")
 				'pao':
-					pass
-				'queijo':
-					pass
+					file = preload("res://pao_queijo.tscn")
 				'tomate':
-					pass
+					file = preload("res://queijo_tomate.tscn")
 		'tomate':
 			match put_on_plate:
 				'hamburguer':
-					pass
+					file = preload("res://hamburguer_tomate.tscn")
 				'pao':
-					pass
+					file = preload("res://pao_tomate.tscn")
 				'queijo':
-					pass
-				'tomate':
-					pass
+					file = preload("res://queijo_tomate.tscn")
+					
+	var instance = file.instance()
+	add_child(instance)
+	instance.set_global_transform(self.get_node("holding").get_global_transform())
+	instance.set_scale(Vector3(0.5,0.5,0.5))
+				
