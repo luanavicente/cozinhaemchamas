@@ -26,6 +26,9 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 func _process(d):
+	
+	self.transform.origin.y = 1.8
+	
 	#Mensagens de interações
 	if $Yaw/Camera/InteractionRay.is_colliding():
 		var x = $Yaw/Camera/InteractionRay.get_collider()
