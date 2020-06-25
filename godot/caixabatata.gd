@@ -14,6 +14,6 @@ func more_food(player):
 	batata_inst.in_plate = true
 	player.carried_object = null
 	is_holding = true
-	batata_inst.leave()
+	carried_object.leave()
 	batata_inst.set_global_transform(self.get_node("top").get_global_transform())
 	batata_inst.set_scale(Vector3(0.5,0.5,0.5))

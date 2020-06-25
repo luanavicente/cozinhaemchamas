@@ -29,8 +29,6 @@ func _process(delta):
 			'caixaqueijo':
 				position = "top"
 	if picked_up or in_plate:
-		print(holder.get_name())
-		print(position)
 		set_global_transform(holder.get_node(position).get_global_transform())
 		if !is_holder_player:
 			set_scale(Vector3(0.5,0.5,0.5))

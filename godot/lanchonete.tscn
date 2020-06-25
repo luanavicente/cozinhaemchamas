@@ -45,9 +45,6 @@ transform = Transform( -3.49691e-08, 0, 0.8, 0, 0.8, 0, -0.8, 0, -3.49691e-08, -
 [node name="frigideira2" parent="." instance=ExtResource( 6 )]
 transform = Transform( -3.49691e-08, 0, 0.8, 0, 0.8, 0, -0.8, 0, -3.49691e-08, -5.70237, 5.7265, -4.83777 )
 
-[node name="OmniLight" type="OmniLight" parent="."]
-omni_range = 24.3676
-
 [node name="balcao" parent="." instance=ExtResource( 5 )]
 transform = Transform( 0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -5.70318, 3.07226, -2.32373 )
 

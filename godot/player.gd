@@ -32,6 +32,7 @@ func _process(d):
 	#Mensagens de interações
 	if $Yaw/Camera/InteractionRay.is_colliding():
 		var x = $Yaw/Camera/InteractionRay.get_collider()
+		print(x.get_name())
 		if x.has_method("pick_up") and carried_object == null:
 			$interaction_text.set_text("[V]  Pick up: " + x.get_name())
 		elif x.has_method("drop_it") and carried_object != null:
@@ -39,7 +40,7 @@ func _process(d):
 		elif x.has_method("more_food") and carried_object == null:
 			$interaction_text.set_text("[B]  More food: " + x.get_name())
 		elif x.has_method("deliver") and carried_object == null:
-			$interaction_text.set_text("[B]  More food: " + x.get_name())
+			$interaction_text.set_text("[Space]  Deliver: " + x.get_name())
 		else:
 			$interaction_text.set_text("")
 	else:
@@ -95,9 +96,7 @@ func _input(event):
 
 	# pegar objeto
 	if event.is_action_pressed("pick_up"):
-		if carried_object != null:
-			carried_object.pick_up(self,true)
-		else:
+		if carried_object == null:
 			if $Yaw/Camera/InteractionRay.is_colliding():
 				var x = $Yaw/Camera/InteractionRay.get_collider()
 				if x.has_method("pick_up"):
@@ -113,6 +112,7 @@ func _input(event):
 	
 	# mais comida
 	if event.is_action_pressed("more_food"):
-		if $Yaw/Camera/InteractionRay.is_colliding():
-			var caixa = $Yaw/Camera/InteractionRay.get_collider()
-			caixa.more_food(self)
+		if carried_object == null:
+			if $Yaw/Camera/InteractionRay.is_colliding():
+				var caixa = $Yaw/Camera/InteractionRay.get_collider()
+				caixa.more_food(self)
