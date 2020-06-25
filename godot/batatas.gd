@@ -3,6 +3,7 @@ extends RigidBody
 var picked_up
 var in_plate
 var is_holder_player
+var in_trash = false
 var holder
 var position
 
@@ -19,6 +20,9 @@ func pick_up(player,is_player):
 		carry()
 
 func _process(delta):
+	if in_trash:
+		for child in get_children():
+			child.queue_free()
 	
 	if holder:
 		match holder.get_name():
@@ -28,7 +32,7 @@ func _process(delta):
 				position = "holding"
 			'caixabatata':
 				position = "top"
-	if picked_up or in_plate:
+	if (picked_up or in_plate) and not in_trash:
 		set_global_transform(holder.get_node(position).get_global_transform())
 		if !is_holder_player:
 			set_scale(Vector3(0.5,0.5,0.5))
