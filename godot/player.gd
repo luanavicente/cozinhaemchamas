@@ -29,12 +29,13 @@ func _process(d):
 	#Mensagens de interações
 	if $Yaw/Camera/InteractionRay.is_colliding():
 		var x = $Yaw/Camera/InteractionRay.get_collider()
-		var teste = x.get_name()
 		if x.has_method("pick_up") and carried_object == null:
 			$interaction_text.set_text("[V]  Pick up: " + x.get_name())
 		elif x.has_method("drop_it") and carried_object != null:
 			$interaction_text.set_text("[C]  Drop it: " + carried_object.get_name())
 		elif x.has_method("more_food") and carried_object == null:
+			$interaction_text.set_text("[B]  More food: " + x.get_name())
+		elif x.has_method("deliver") and carried_object == null:
 			$interaction_text.set_text("[B]  More food: " + x.get_name())
 		else:
 			$interaction_text.set_text("")
