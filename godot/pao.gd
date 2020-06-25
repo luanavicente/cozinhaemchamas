@@ -2,6 +2,7 @@ extends RigidBody
 
 var picked_up
 var in_plate
+var in_trash = false
 var is_holder_player
 var holder
 var position
@@ -19,7 +20,10 @@ func pick_up(player,is_player):
 		carry()
 
 func _process(delta):
-	
+	if in_trash:
+		for child in get_children():
+			child.queue_free()
+			
 	if holder:
 		match holder.get_name():
 			'Player':
@@ -28,7 +32,7 @@ func _process(delta):
 				position = "holding"
 			'caixapao':
 				position = "top"
-	if picked_up or in_plate:
+	if (picked_up or in_plate) and not in_trash:
 		set_global_transform(holder.get_node(position).get_global_transform())
 		if !is_holder_player:
 			set_scale(Vector3(0.5,0.5,0.5))
@@ -42,8 +46,3 @@ func carry():
 func leave():
 	$CollisionShape.set_disabled(false)
 	self.set_mode(0)
-
-func _input(event):
-	if event.is_action_pressed("deliver"):
-		remove_child($Sphere)
-		remove_child($CollisionShape)
