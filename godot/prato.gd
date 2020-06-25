@@ -2,6 +2,7 @@ extends Spatial
 
 var carried_object
 var is_holding
+var is_completed
 
 func drop_it(player,object):
 	if !is_holding:
@@ -9,12 +10,20 @@ func drop_it(player,object):
 	else:
 		change_models(object)
 
+func deliver(player):
+	if is_completed:
+		remove_child(get_node('lanche'))
+		player.get_node('interaction_text').set_text('Pedido entregue!')
+	else:
+		player.get_node('interaction_text').set_text('Complete o pedido antes de entregar!')
+
 func _process(delta):
 	self.transform.origin.y = 5.2
 	self.transform.origin.x = 4.75
 	self.transform.origin.z = -1.25
 	
 func hold(player,object):
+	is_completed = false
 	carried_object = object
 	object.holder = self
 	object.is_holder_player = false
@@ -30,30 +39,33 @@ func change_models(object):
 	
 	if not put_on_plate in on_plate:
 		carried_object.get_parent().remove_child(carried_object)
-		var player = object.get_parent()
-		player.remove_child(object)
+		object.get_parent().remove_child(object)
+		var player = object.holder
 		player.is_holding = false
 		player.carried_object = null
 
 	var file
 	match on_plate:
 		'hamburguer':
+			is_completed = false
 			match put_on_plate:
 				'pao':
-					file = preload("res://pao_carne.tscn")
+					file = preload("res://pao_hamburguer.tscn")
 				'queijo':
 					file = preload("res://hamburguer_queijo.tscn")
 				'tomate':
 					file = preload("res://hamburguer_tomate.tscn")
 		'pao':
+			is_completed = false
 			match put_on_plate:
 				'hamburguer':
-					file = preload("res://pao_carne.tscn")
+					file = preload("res://pao_hamburguer.tscn")
 				'queijo':
 					file = preload("res://pao_queijo.tscn")
 				'tomate':
 					file = preload("res://pao_tomate.tscn")
 		'queijo':
+			is_completed = false
 			match put_on_plate:
 				'hamburguer':
 					file = preload("res://hamburguer_queijo.tscn")
@@ -62,6 +74,7 @@ func change_models(object):
 				'tomate':
 					file = preload("res://queijo_tomate.tscn")
 		'tomate':
+			is_completed = false
 			match put_on_plate:
 				'hamburguer':
 					file = preload("res://hamburguer_tomate.tscn")
@@ -69,9 +82,74 @@ func change_models(object):
 					file = preload("res://pao_tomate.tscn")
 				'queijo':
 					file = preload("res://queijo_tomate.tscn")
-					
+		'pao_hamburguer':
+			is_completed = false
+			match put_on_plate:
+				'queijo':
+					file = preload("res://pao_hamburguer_queijo.tscn")
+				'tomate':
+					file = preload("res://pao_hamburguer_tomate.tscn")
+		'pao_queijo':
+			is_completed = false
+			match put_on_plate:
+				'hamburguer':
+					file = preload("res://pao_hamburguer_queijo.tscn")
+				'tomate':
+					file = preload("res://pao_queijo_tomate.tscn")
+		'pao_tomate':
+			is_completed = false
+			match put_on_plate:
+				'hamburguer':
+					file = preload("res://pao_hamburguer_tomate.tscn")
+				'queijo':
+					file = preload("res://pao_queijo_tomate.tscn")
+		'hamburguer_tomate':
+			is_completed = false
+			match put_on_plate:
+				'queijo':
+					file = preload("res://hamburguer_queijo_tomate.tscn")
+				'pao':
+					file = preload("res://pao_hamburguer_tomate.tscn")
+		'hamburguer_queijo':
+			is_completed = false
+			match put_on_plate:
+				'tomate':
+					file = preload("res://hamburguer_queijo_tomate.tscn")
+				'pao':
+					file = preload("res://pao_hamburguer_queijo.tscn")
+		'tomate_queijo':
+			is_completed = false
+			match put_on_plate:
+				'hamburguer':
+					file = preload("res://hamburguer_queijo_tomate.tscn")
+				'pao':
+					file = preload("res://pao_queijo_tomate.tscn")
+		'pao_hamburguer_tomate':
+			match put_on_plate:
+				'queijo':
+					is_completed = true
+					file = preload("res://lanche.tscn")
+		'pao_hamburguer_queijo':
+			match put_on_plate:
+				'tomate':
+					is_completed = true
+					file = preload("res://lanche.tscn")
+		'pao_queijo_tomate':
+			match put_on_plate:
+				'hamburguer':
+					is_completed = true
+					file = preload("res://lanche.tscn")
+		'hamburguer_tomate_queijo':
+			match put_on_plate:
+				'pao':
+					is_completed = true
+					file = preload("res://lanche.tscn")
+
 	var instance = file.instance()
 	add_child(instance)
+	instance.holder = self
+	instance.is_holder_player = false
+	instance.in_plate = true
 	instance.set_global_transform(self.get_node("holding").get_global_transform())
 	instance.set_scale(Vector3(0.5,0.5,0.5))
 				

@@ -115,3 +115,10 @@ func _input(event):
 			if $Yaw/Camera/InteractionRay.is_colliding():
 				var caixa = $Yaw/Camera/InteractionRay.get_collider()
 				caixa.more_food(self)
+				
+	# deliver
+	if event.is_action_pressed("deliver"):
+		if carried_object == null:
+			if $Yaw/Camera/InteractionRay.is_colliding():
+				var prato = $Yaw/Camera/InteractionRay.get_collider()
+				prato.deliver(self)

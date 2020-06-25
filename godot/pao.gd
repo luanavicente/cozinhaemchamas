@@ -1,13 +1,16 @@
 extends RigidBody
 
 var picked_up
-var in_plate
+var in_plate = false
 var in_trash = false
 var is_holder_player
 var holder
 var position
 
 func pick_up(player,is_player):
+	print('oiiiiiiiii')
+	print(in_plate)
+	print(is_player)
 	if in_plate and is_player:
 		holder.is_holding = false
 	
@@ -21,8 +24,7 @@ func pick_up(player,is_player):
 
 func _process(delta):
 	if in_trash:
-		for child in get_children():
-			child.queue_free()
+		get_parent().remove_child(self)
 			
 	if holder:
 		match holder.get_name():

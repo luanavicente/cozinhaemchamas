@@ -21,10 +21,8 @@ func pick_up(player,is_player):
 
 func _process(delta):
 	if in_trash:
-		for child in get_children():
-			child.queue_free()
-			
-	
+		get_parent().remove_child(self)
+		
 	if holder:
 		match holder.get_name():
 			'Player':
