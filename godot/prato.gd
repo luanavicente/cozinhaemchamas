@@ -39,9 +39,6 @@ func change_models(object):
 	var on_plate = carried_object.get_name()
 	var put_on_plate = object.get_name()
 	
-	print(put_on_plate)
-	print(on_plate)
-	
 	if not put_on_plate in on_plate:
 		carried_object.get_parent().remove_child(carried_object)
 		object.get_parent().remove_child(object)

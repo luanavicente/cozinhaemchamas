@@ -45,6 +45,9 @@ func _process(d):
 			$interaction_text.set_text("[B]  More food: " + x.get_name())
 		elif x.has_method("deliver") and carried_object == null and x.is_completed:
 			$interaction_text.set_text("[Space]  Deliver: " + x.get_name())
+		elif entregou and count == 1:
+			$interaction_text.set_text("Prato entregue! Parabéns!")
+			change_recipe()
 		elif entregou and count < timer:
 			$interaction_text.set_text("Prato entregue! Parabéns!")
 		elif entregou and count >= timer:
@@ -135,3 +138,30 @@ func _input(event):
 				if prato.is_completed:
 					entregou = true
 					$interaction_text.set_text(prato.deliver(self))
+
+func change_recipe():
+	var random = randi()%2+1
+	var file
+	
+	match random:
+		1:
+			file = preload("res://cardapio.tscn")
+		2:
+			file = preload("res://cardapio2.tscn")
+	
+	var instance = file.instance()
+	var position_cardapio = get_parent().get_node('position_cardapio')
+	
+	for i in range(0, position_cardapio.get_child_count()):
+		position_cardapio.get_child(i).queue_free()
+	
+	position_cardapio.add_child(instance)
+	instance.set_global_transform(position_cardapio.get_global_transform())
+	instance.set_scale(Vector3(1,1,1))
+	
+	
+	
+	
+	
+	
+	
