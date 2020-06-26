@@ -36,8 +36,24 @@ func _process(d):
 	if entregou:
 		count = count + 1
 	
+	var is_showing_message = false
+	
+	#mensagem de entrega
+	if entregou and count == 1:
+		$interaction_text.set_text("Prato entregue! Parabéns!\nVeja a receita nova!")
+		change_recipe()
+		is_showing_message = true
+	elif entregou and count < timer:
+		$interaction_text.set_text("Prato entregue! Parabéns!\nVeja a receita nova!")
+		is_showing_message = true
+	elif entregou and count >= timer:
+		is_showing_message = true
+		entregou = false
+		count = 0
+		$interaction_text.set_text("")
+		
 	#Mensagens de interações
-	if $Yaw/Camera/InteractionRay.is_colliding():
+	if !is_showing_message and $Yaw/Camera/InteractionRay.is_colliding():
 		var x = $Yaw/Camera/InteractionRay.get_collider()
 		if x.has_method("pick_up") and carried_object == null:
 			$interaction_text.set_text("[V]  Pick up: " + x.get_name())
@@ -47,15 +63,6 @@ func _process(d):
 			$interaction_text.set_text("[B]  More food: " + x.get_name())
 		elif x.has_method("deliver") and carried_object == null and x.is_completed:
 			$interaction_text.set_text("[Space]  Deliver: " + x.get_name())
-		elif entregou and count == 1:
-			$interaction_text.set_text("Prato entregue! Parabéns!\nVeja a receita nova!")
-			change_recipe()
-		elif entregou and count < timer:
-			$interaction_text.set_text("Prato entregue! Parabéns!\nVeja a receita nova!")
-		elif entregou and count >= timer:
-			entregou = false
-			count = 0
-			$interaction_text.set_text("")
 		else:
 			$interaction_text.set_text("")
 	else:

@@ -27,9 +27,7 @@ func _process(delta):
 	self.transform.origin.x = 4.75
 	self.transform.origin.z = -1.25
 	
-func hold(player,object):
-	is_completed_recipe(player,object)
-	
+func hold(player,object):	
 	if object.get_name() == 'batatas':
 		is_carrying_batata = true
 		object.leave()
@@ -38,6 +36,7 @@ func hold(player,object):
 		carried_object.leave()
 		is_holding = true
 		
+	is_completed_recipe(player)
 	object.holder = self
 	object.is_holder_player = false
 	object.picked_up = false
@@ -150,18 +149,21 @@ func change_models(player,object):
 	instance.in_plate = true
 	instance.set_global_transform(self.get_node("holding").get_global_transform())
 	instance.set_scale(Vector3(0.5,0.5,0.5))
-	is_completed_recipe(player,instance)
+	is_completed_recipe(player)
 	
 #vê se tá completo, dependendo da receita
-func is_completed_recipe(player,instance):
-	match player.recipe_file:
-		"cardapio":
-			if instance.get_name() == "lanche":
-				is_completed = true
-			else:
-				is_completed = false
-		"cardapio2":
-			if instance.get_name() == "pao_hamburguer_queijo":
-				is_completed = true
-			else:
-				is_completed = false
+func is_completed_recipe(player):
+	if carried_object != null:
+		match player.recipe_file:
+			"cardapio":
+				if !is_carrying_batata and carried_object.get_name() == "lanche":
+					is_completed = true
+				else:
+					is_completed = false
+			"cardapio2":
+				if !is_carrying_batata and carried_object.get_name() == "pao_hamburguer_queijo":
+					is_completed = true
+				else:
+					is_completed = false
+	else:
+		is_completed = false
