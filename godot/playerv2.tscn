@@ -65,6 +65,7 @@ __meta__ = {
 [node name="Timer" type="Timer" parent="message"]
 
 [node name="interaction_text" type="Label" parent="."]
+show_behind_parent = true
 margin_top = 459.0
 margin_right = 1597.0
 margin_bottom = 473.0

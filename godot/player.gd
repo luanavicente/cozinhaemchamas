@@ -29,6 +29,7 @@ const MAX_SLOPE_ANGLE = 60
 	
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	change_recipe()
 
 func _process(d):
@@ -57,13 +58,16 @@ func _process(d):
 	if !is_showing_message and $Yaw/Camera/InteractionRay.is_colliding():
 		var x = $Yaw/Camera/InteractionRay.get_collider()
 		if x.has_method("pick_up") and carried_object == null:
-			$interaction_text.set_text("[V]  Pick up: " + x.get_name())
+			$interaction_text.set_text("[V]  Pegar: " + x.get_name())
 		elif x.has_method("drop_it") and carried_object != null:
-			$interaction_text.set_text("[C]  Drop it: " + carried_object.get_name())
+			if x.get_name() == 'frigideira' and carried_object.get_name() != 'hamburguer_cru':
+				$interaction_text.set_text("Não é possível colocar " + carried_object.get_name() + " aqui")
+			else:
+				$interaction_text.set_text("[C]  Colocar: " + carried_object.get_name())
 		elif x.has_method("more_food") and carried_object == null:
-			$interaction_text.set_text("[B]  More food: " + x.get_name())
+			$interaction_text.set_text("[B]  Pegar mais comida: " + x.get_name())
 		elif x.has_method("deliver") and carried_object == null and x.is_completed:
-			$interaction_text.set_text("[Space]  Deliver: " + x.get_name())
+			$interaction_text.set_text("[Espaço]  Entregar: " + x.get_name())
 		else:
 			$interaction_text.set_text("")
 	elif !is_showing_message:
