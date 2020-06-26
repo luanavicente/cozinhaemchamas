@@ -5,6 +5,7 @@ var move_speed = 8
 var view_sensitivity = 0.5
 var pitch = 0
 var is_holding
+var is_carrying_batata
 var timer = 300
 var count = 0
 var entregou = false
@@ -129,7 +130,7 @@ func _input(event):
 		if carried_object == null:
 			if $Yaw/Camera/InteractionRay.is_colliding():
 				var caixa = $Yaw/Camera/InteractionRay.get_collider()
-				if caixa.get_name() in ['caixapao','caixacarne','caixabatatas','caixaqueijo','caixatomate']:
+				if caixa.get_name() in ['caixapao','caixacarne','caixabatata','caixaqueijo','caixatomate']:
 					caixa.more_food(self)
 				
 	# deliver
@@ -142,7 +143,9 @@ func _input(event):
 					prato.deliver(self)
 
 func change_recipe():
-	var random = randi()%2+1
+	var rng = RandomNumberGenerator.new()
+	rng.randomize()
+	var random = rng.randi_range(1, 2)
 	var file
 	
 	match random:

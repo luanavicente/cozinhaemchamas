@@ -3,12 +3,16 @@ extends Spatial
 var carried_object
 var is_holding
 var is_completed
+var is_carrying_batata
 
 func drop_it(player,object):
-	if !is_holding:
+	if object.get_name() == 'batatas':
 		hold(player,object)
 	else:
-		change_models(player,object)
+		if !is_holding:
+			hold(player,object)
+		else:
+			change_models(player,object)
 
 func deliver(player):
 	if is_completed:
@@ -16,6 +20,7 @@ func deliver(player):
 		is_completed = false
 		is_holding = false
 		carried_object = null
+		is_carrying_batata = false
 
 func _process(delta):
 	self.transform.origin.y = 5.2
@@ -23,16 +28,21 @@ func _process(delta):
 	self.transform.origin.z = -1.25
 	
 func hold(player,object):
-	if object.get_name() != 'lanche':
-		is_completed = false
-	carried_object = object
+	is_completed_recipe(player,object)
+	
+	if object.get_name() == 'batatas':
+		is_carrying_batata = true
+		object.leave()
+	else:
+		carried_object = object
+		carried_object.leave()
+		is_holding = true
+		
 	object.holder = self
 	object.is_holder_player = false
 	object.picked_up = false
 	object.in_plate = true
 	player.carried_object = null
-	is_holding = true
-	carried_object.leave()
 	
 func change_models(player,object):
 	var on_plate = carried_object.get_name()
@@ -140,8 +150,10 @@ func change_models(player,object):
 	instance.in_plate = true
 	instance.set_global_transform(self.get_node("holding").get_global_transform())
 	instance.set_scale(Vector3(0.5,0.5,0.5))
+	is_completed_recipe(player,instance)
 	
-	#vê se tá completo, dependendo da receita
+#vê se tá completo, dependendo da receita
+func is_completed_recipe(player,instance):
 	match player.recipe_file:
 		"cardapio":
 			if instance.get_name() == "lanche":

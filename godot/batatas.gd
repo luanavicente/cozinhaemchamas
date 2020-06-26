@@ -9,7 +9,7 @@ var position
 
 func pick_up(player,is_player):
 	if in_plate and is_player:
-		holder.is_holding = false
+		holder.is_carrying_batata = false
 	
 	holder = player
 	is_holder_player = is_player
@@ -28,13 +28,13 @@ func _process(delta):
 			'Player':
 				position = "Yaw/Camera/pickup_pos"
 			'prato':
-				position = "holding"
+				position = "holding_batata"
 			'caixabatata':
 				position = "top"
 	if (picked_up or in_plate) and not in_trash:
 		set_global_transform(holder.get_node(position).get_global_transform())
 		if !is_holder_player:
-			set_scale(Vector3(0.5,0.5,0.5))
+			set_scale(Vector3(0.3,0.3,0.3))
 			
 func carry():
 	$CollisionShape.set_disabled(true)
@@ -45,8 +45,3 @@ func carry():
 func leave():
 	$CollisionShape.set_disabled(false)
 	self.set_mode(0)
-
-func _input(event):
-	if event.is_action_pressed("deliver"):
-		remove_child($Sphere)
-		remove_child($CollisionShape)

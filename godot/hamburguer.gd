@@ -45,8 +45,3 @@ func carry():
 func leave():
 	$CollisionShape.set_disabled(false)
 	self.set_mode(0)
-
-func _input(event):
-	if event.is_action_pressed("deliver"):
-		remove_child($Sphere)
-		remove_child($CollisionShape)
