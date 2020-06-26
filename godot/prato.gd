@@ -8,15 +8,14 @@ func drop_it(player,object):
 	if !is_holding:
 		hold(player,object)
 	else:
-		change_models(object)
+		change_models(player,object)
 
 func deliver(player):
 	if is_completed:
-		remove_child(get_node('lanche'))
+		remove_child(carried_object)
 		is_completed = false
-		return 'Pedido entregue!'
-	else:
-		return ''
+		is_holding = false
+		carried_object = null
 
 func _process(delta):
 	self.transform.origin.y = 5.2
@@ -35,21 +34,19 @@ func hold(player,object):
 	is_holding = true
 	carried_object.leave()
 	
-func change_models(object):
+func change_models(player,object):
 	var on_plate = carried_object.get_name()
 	var put_on_plate = object.get_name()
 	
 	if not put_on_plate in on_plate:
 		carried_object.get_parent().remove_child(carried_object)
 		object.get_parent().remove_child(object)
-		var player = object.holder
 		player.is_holding = false
 		player.carried_object = null
 
 	var file
 	match on_plate:
 		'hamburguer':
-			is_completed = false
 			match put_on_plate:
 				'pao':
 					file = preload("res://pao_hamburguer.tscn")
@@ -58,7 +55,6 @@ func change_models(object):
 				'tomate':
 					file = preload("res://hamburguer_tomate.tscn")
 		'pao':
-			is_completed = false
 			match put_on_plate:
 				'hamburguer':
 					file = preload("res://pao_hamburguer.tscn")
@@ -67,7 +63,6 @@ func change_models(object):
 				'tomate':
 					file = preload("res://pao_tomate.tscn")
 		'queijo':
-			is_completed = false
 			match put_on_plate:
 				'hamburguer':
 					file = preload("res://hamburguer_queijo.tscn")
@@ -76,7 +71,6 @@ func change_models(object):
 				'tomate':
 					file = preload("res://queijo_tomate.tscn")
 		'tomate':
-			is_completed = false
 			match put_on_plate:
 				'hamburguer':
 					file = preload("res://hamburguer_tomate.tscn")
@@ -85,42 +79,36 @@ func change_models(object):
 				'queijo':
 					file = preload("res://queijo_tomate.tscn")
 		'pao_hamburguer':
-			is_completed = false
 			match put_on_plate:
 				'queijo':
 					file = preload("res://pao_hamburguer_queijo.tscn")
 				'tomate':
 					file = preload("res://pao_hamburguer_tomate.tscn")
 		'pao_queijo':
-			is_completed = false
 			match put_on_plate:
 				'hamburguer':
 					file = preload("res://pao_hamburguer_queijo.tscn")
 				'tomate':
 					file = preload("res://pao_queijo_tomate.tscn")
 		'pao_tomate':
-			is_completed = false
 			match put_on_plate:
 				'hamburguer':
 					file = preload("res://pao_hamburguer_tomate.tscn")
 				'queijo':
 					file = preload("res://pao_queijo_tomate.tscn")
 		'hamburguer_tomate':
-			is_completed = false
 			match put_on_plate:
 				'queijo':
 					file = preload("res://hamburguer_queijo_tomate.tscn")
 				'pao':
 					file = preload("res://pao_hamburguer_tomate.tscn")
 		'hamburguer_queijo':
-			is_completed = false
 			match put_on_plate:
 				'tomate':
 					file = preload("res://hamburguer_queijo_tomate.tscn")
 				'pao':
 					file = preload("res://pao_hamburguer_queijo.tscn")
 		'queijo_tomate':
-			is_completed = false
 			match put_on_plate:
 				'hamburguer':
 					file = preload("res://hamburguer_queijo_tomate.tscn")
@@ -129,24 +117,21 @@ func change_models(object):
 		'pao_hamburguer_tomate':
 			match put_on_plate:
 				'queijo':
-					is_completed = true
 					file = preload("res://lanche.tscn")
 		'pao_hamburguer_queijo':
 			match put_on_plate:
 				'tomate':
-					is_completed = true
 					file = preload("res://lanche.tscn")
 		'pao_queijo_tomate':
 			match put_on_plate:
 				'hamburguer':
-					is_completed = true
 					file = preload("res://lanche.tscn")
 		'hamburguer_queijo_tomate':
 			match put_on_plate:
 				'pao':
-					is_completed = true
 					file = preload("res://lanche.tscn")
 
+	#cria o modelo
 	var instance = file.instance()
 	add_child(instance)
 	carried_object = instance
@@ -155,4 +140,16 @@ func change_models(object):
 	instance.in_plate = true
 	instance.set_global_transform(self.get_node("holding").get_global_transform())
 	instance.set_scale(Vector3(0.5,0.5,0.5))
-				
+	
+	#vê se tá completo, dependendo da receita
+	match player.recipe_file:
+		"cardapio":
+			if instance.get_name() == "lanche":
+				is_completed = true
+			else:
+				is_completed = false
+		"cardapio2":
+			if instance.get_name() == "pao_hamburguer_queijo":
+				is_completed = true
+			else:
+				is_completed = false

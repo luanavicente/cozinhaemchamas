@@ -8,6 +8,7 @@ var is_holding
 var timer = 300
 var count = 0
 var entregou = false
+var recipe_file = "cardapio"
 
 #mover
 var speed = 400
@@ -46,10 +47,10 @@ func _process(d):
 		elif x.has_method("deliver") and carried_object == null and x.is_completed:
 			$interaction_text.set_text("[Space]  Deliver: " + x.get_name())
 		elif entregou and count == 1:
-			$interaction_text.set_text("Prato entregue! Parabéns!")
+			$interaction_text.set_text("Prato entregue! Parabéns!\nVeja a receita nova!")
 			change_recipe()
 		elif entregou and count < timer:
-			$interaction_text.set_text("Prato entregue! Parabéns!")
+			$interaction_text.set_text("Prato entregue! Parabéns!\nVeja a receita nova!")
 		elif entregou and count >= timer:
 			entregou = false
 			count = 0
@@ -120,7 +121,7 @@ func _input(event):
 		if carried_object != null:
 			if $Yaw/Camera/InteractionRay.is_colliding():
 				var x = $Yaw/Camera/InteractionRay.get_collider()
-				if x.has_method("drop_it"):
+				if x.get_name() in ['prato','lixo'] and x.has_method("drop_it"):
 					x.drop_it(self,carried_object)
 	
 	# mais comida
@@ -128,16 +129,17 @@ func _input(event):
 		if carried_object == null:
 			if $Yaw/Camera/InteractionRay.is_colliding():
 				var caixa = $Yaw/Camera/InteractionRay.get_collider()
-				caixa.more_food(self)
+				if caixa.get_name() in ['caixapao','caixacarne','caixabatatas','caixaqueijo','caixatomate']:
+					caixa.more_food(self)
 				
 	# deliver
 	if event.is_action_pressed("deliver"):
 		if carried_object == null:
 			if $Yaw/Camera/InteractionRay.is_colliding():
 				var prato = $Yaw/Camera/InteractionRay.get_collider()
-				if prato.is_completed:
+				if prato.get_name() == 'prato' and prato.is_completed:
 					entregou = true
-					$interaction_text.set_text(prato.deliver(self))
+					prato.deliver(self)
 
 func change_recipe():
 	var random = randi()%2+1
@@ -146,8 +148,10 @@ func change_recipe():
 	match random:
 		1:
 			file = preload("res://cardapio.tscn")
+			recipe_file = "cardapio"
 		2:
 			file = preload("res://cardapio2.tscn")
+			recipe_file = "cardapio2"
 	
 	var instance = file.instance()
 	var position_cardapio = get_parent().get_node('position_cardapio')
