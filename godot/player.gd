@@ -29,6 +29,7 @@ const MAX_SLOPE_ANGLE = 60
 	
 func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	change_recipe()
 
 func _process(d):
 	self.transform.origin.y = 1.8
@@ -65,7 +66,7 @@ func _process(d):
 			$interaction_text.set_text("[Space]  Deliver: " + x.get_name())
 		else:
 			$interaction_text.set_text("")
-	else:
+	elif !is_showing_message:
 		$interaction_text.set_text("")
 		
 	var dir = (get_node("Yaw/Camera/look_at").get_global_transform().origin - get_node("Yaw/Camera").get_global_transform().origin).normalized()
@@ -129,7 +130,7 @@ func _input(event):
 		if carried_object != null:
 			if $Yaw/Camera/InteractionRay.is_colliding():
 				var x = $Yaw/Camera/InteractionRay.get_collider()
-				if x.get_name() in ['prato','lixo'] and x.has_method("drop_it"):
+				if x.get_name() in ['prato','lixo', 'frigideira', 'frigideira2'] and x.has_method("drop_it"):
 					x.drop_it(self,carried_object)
 	
 	# mais comida
@@ -152,9 +153,8 @@ func _input(event):
 func change_recipe():
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
-	var random = rng.randi_range(1, 2)
+	var random = rng.randi_range(1, 8)
 	var file
-	
 	match random:
 		1:
 			file = preload("res://cardapio.tscn")
@@ -162,6 +162,24 @@ func change_recipe():
 		2:
 			file = preload("res://cardapio2.tscn")
 			recipe_file = "cardapio2"
+		3:
+			file = preload("res://cardapio3.tscn")
+			recipe_file = "cardapio3"
+		4:
+			file = preload("res://cardapio4.tscn")
+			recipe_file = "cardapio4"
+		5:
+			file = preload("res://cardapio5.tscn")
+			recipe_file = "cardapio5"
+		6:
+			file = preload("res://cardapio6.tscn")
+			recipe_file = "cardapio6"
+		7:
+			file = preload("res://cardapio7.tscn")
+			recipe_file = "cardapio7"
+		8:
+			file = preload("res://cardapio8.tscn")
+			recipe_file = "cardapio8"
 	
 	var instance = file.instance()
 	var position_cardapio = get_parent().get_node('position_cardapio')

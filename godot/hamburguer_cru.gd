@@ -1,16 +1,49 @@
 extends RigidBody
 
+var picked_up
+var in_fryer = false
+var in_trash = false
+var is_holder_player
+var holder
+var position
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+func pick_up(player,is_player):
+	if in_fryer and is_player:
+		holder.is_holding = false
+	
+	holder = player
+	is_holder_player = is_player
 
+	if picked_up and is_holder_player:
+		leave()
+	else:
+		carry()
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
+func _process(delta):
+	if in_trash:
+		get_parent().remove_child(self)
 
+	if holder:
+		match holder.get_name():
+			'Player':
+				position = "Yaw/Camera/pickup_pos"
+			'frigideira', 'frigideira2':
+				position = "holding"
+			'caixacarne':
+				position = "top"
+	
+	
+	if (picked_up or in_fryer) and not in_trash:
+		set_global_transform(holder.get_node(position).get_global_transform())
+		if !is_holder_player:
+			set_scale(Vector3(0.5,0.5,0.5))
+			
+func carry():
+	$CollisionShape.set_disabled(true)
+	holder.carried_object = self
+	self.set_mode(1)
+	picked_up = true
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func leave():
+	$CollisionShape.set_disabled(false)
+	self.set_mode(0)

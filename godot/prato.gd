@@ -17,6 +17,8 @@ func drop_it(player,object):
 func deliver(player):
 	if is_completed:
 		remove_child(carried_object)
+		if is_carrying_batata:
+			remove_child(get_node("batatas"))
 		is_completed = false
 		is_holding = false
 		carried_object = null
@@ -30,6 +32,11 @@ func _process(delta):
 func hold(player,object):
 	if object.get_name() == 'batatas':
 		is_carrying_batata = true
+		object.get_parent().remove_child(object)
+		add_child(object)
+		object.holder = self
+		object.is_holder_player = false
+		object.in_plate = true
 		object.leave()
 	else:
 		carried_object = object
@@ -143,6 +150,7 @@ func change_models(player,object):
 	#cria o modelo
 	var instance = file.instance()
 	add_child(instance)
+	var teste = instance.get_name()
 	carried_object = instance
 	instance.holder = self
 	instance.is_holder_player = false
@@ -162,6 +170,36 @@ func is_completed_recipe(player):
 					is_completed = false
 			"cardapio2":
 				if !is_carrying_batata and carried_object.get_name() == "pao_hamburguer_queijo":
+					is_completed = true
+				else:
+					is_completed = false
+			"cardapio3":
+				if !is_carrying_batata and carried_object.get_name() == "pao_hamburguer":
+					is_completed = true
+				else:
+					is_completed = false
+			"cardapio4":
+				if !is_carrying_batata and carried_object.get_name() == "pao_hamburguer_tomate":
+					is_completed = true
+				else:
+					is_completed = false
+			"cardapio5":
+				if is_carrying_batata and carried_object.get_name() == "pao_hamburguer_tomate":
+					is_completed = true
+				else:
+					is_completed = false
+			"cardapio6":
+				if is_carrying_batata and carried_object.get_name() == "lanche":
+					is_completed = true
+				else:
+					is_completed = false
+			"cardapio7":
+				if is_carrying_batata and carried_object.get_name() == "pao_hamburguer_queijo":
+					is_completed = true
+				else:
+					is_completed = false
+			"cardapio8":
+				if is_carrying_batata and carried_object.get_name() == "pao_hamburguer":
 					is_completed = true
 				else:
 					is_completed = false

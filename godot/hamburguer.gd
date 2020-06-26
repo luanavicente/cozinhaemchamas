@@ -2,6 +2,7 @@ extends RigidBody
 
 var picked_up
 var in_plate
+var in_fryer
 var in_trash = false
 var is_holder_player
 var holder
