@@ -10,6 +10,7 @@ var position
 func pick_up(player,is_player):
 	if in_plate and is_player:
 		holder.is_carrying_batata = false
+		holder.is_completed_recipe(player)
 	
 	holder = player
 	is_holder_player = is_player

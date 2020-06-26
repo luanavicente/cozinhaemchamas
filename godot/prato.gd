@@ -27,7 +27,7 @@ func _process(delta):
 	self.transform.origin.x = 4.75
 	self.transform.origin.z = -1.25
 	
-func hold(player,object):	
+func hold(player,object):
 	if object.get_name() == 'batatas':
 		is_carrying_batata = true
 		object.leave()

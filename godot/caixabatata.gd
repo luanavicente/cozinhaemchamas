@@ -11,7 +11,7 @@ func more_food(player):
 	batata_inst.holder = self
 	batata_inst.is_holder_player = false
 	batata_inst.picked_up = false
-	batata_inst.in_plate = true
+	batata_inst.in_plate = false
 	player.carried_object = null
 	is_carrying_batata = true
 	carried_object.leave()
