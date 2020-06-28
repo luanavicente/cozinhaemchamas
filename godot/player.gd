@@ -105,14 +105,14 @@ func _process(d):
 		var x = $Yaw/Camera/InteractionRay.get_collider()
 		
 		if x.has_method("pick_up") and carried_object == null:
-			mensagem_interacao = "[V]  Pegar: " + x.get_name()
+			mensagem_interacao = "[Espaço]  Pegar: " + x.get_name()
 		elif x.has_method("drop_it") and carried_object != null:
 			if ('frigideira' in x.get_name() and not('hamburguer_cru' in carried_object.get_name())) or ('fritadeira' in x.get_name() and not('batatas_cruas' in carried_object.get_name())) or (x.get_name() == 'prato' and ("cru" in carried_object.get_name() or "queimad" in carried_object.get_name() or "@" in carried_object.get_name())):
 				mensagem_interacao = "Não é possível colocar " + carried_object.get_name() + " aqui"
 			else:
-				mensagem_interacao = "[C]  Colocar: " + carried_object.get_name()
+				mensagem_interacao = "[Espaço]  Colocar: " + carried_object.get_name()
 		elif x.has_method("more_food") and carried_object == null:
-			mensagem_interacao = "[B]  Pegar mais comida: " + x.get_name()
+			mensagem_interacao = "[Espaço]  Pegar mais comida: " + x.get_name()
 		elif x.has_method("deliver") and carried_object == null and x.is_completed:
 			mensagem_interacao = "[Espaço]  Entregar: " + x.get_name()
 		else:
@@ -187,7 +187,16 @@ func _apply_gravity(delta):
 
 #interações
 func _input(event):
-
+	
+	# deliver
+	if event.is_action_pressed("deliver"):
+		if carried_object == null:
+			if $Yaw/Camera/InteractionRay.is_colliding():
+				var prato = $Yaw/Camera/InteractionRay.get_collider()
+				if prato.get_name() == 'prato' and prato.is_completed:
+					entregou = true
+					prato.deliver(self)
+					
 	# pegar objeto
 	if event.is_action_pressed("pick_up"):
 		if carried_object == null:
@@ -203,7 +212,7 @@ func _input(event):
 				var x = $Yaw/Camera/InteractionRay.get_collider()
 				if x.get_name() in ['prato','lixo', 'frigideira', 'frigideira2', 'fritadeira'] and x.has_method("drop_it"):
 					x.drop_it(self,carried_object)
-	
+					
 	# mais comida
 	if event.is_action_pressed("more_food"):
 		if carried_object == null:
@@ -212,14 +221,7 @@ func _input(event):
 				if caixa.get_name() in ['caixapao','caixacarne','caixabatata','caixaqueijo','caixatomate']:
 					caixa.more_food(self)
 				
-	# deliver
-	if event.is_action_pressed("deliver"):
-		if carried_object == null:
-			if $Yaw/Camera/InteractionRay.is_colliding():
-				var prato = $Yaw/Camera/InteractionRay.get_collider()
-				if prato.get_name() == 'prato' and prato.is_completed:
-					entregou = true
-					prato.deliver(self)
+
 
 func change_recipe():
 	var rng = RandomNumberGenerator.new()
