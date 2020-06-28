@@ -39,6 +39,7 @@ var gravity = -40
 const MAX_SLOPE_ANGLE = 60
 	
 func _ready():
+	OS.window_fullscreen = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	change_recipe()
@@ -226,7 +227,7 @@ func _input(event):
 func change_recipe():
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
-	var random = rng.randi_range(1, 8)
+	var random = 6#rng.randi_range(1, 8)
 	var file
 	match random:
 		1:
