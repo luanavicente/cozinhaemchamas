@@ -227,7 +227,7 @@ func _input(event):
 func change_recipe():
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
-	var random = 6#rng.randi_range(1, 8)
+	var random = rng.randi_range(1, 8)
 	var file
 	match random:
 		1:
