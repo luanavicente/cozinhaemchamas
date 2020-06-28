@@ -6,13 +6,14 @@ var is_completed
 var is_carrying_batata
 
 func drop_it(player,object):
-	if object.get_name() == 'batatas':
-		hold(player,object)
-	else:
-		if !is_holding:
+	if  not ("cru" in object.get_name() or "queimad" in object.get_name()): 
+		if object.get_name() == 'batatas':
 			hold(player,object)
 		else:
-			change_models(player,object)
+			if !is_holding:
+				hold(player,object)
+			else:
+				change_models(player,object)
 
 func deliver(player):
 	if is_completed:

@@ -11,7 +11,7 @@ var position
 func pick_up(player,is_player):
 	if in_plate and is_player:
 		holder.is_holding = false
-	
+		
 	holder = player
 	is_holder_player = is_player
 

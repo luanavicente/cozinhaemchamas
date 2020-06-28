@@ -10,7 +10,7 @@ var position
 func pick_up(player,is_player):
 	if in_fryer and is_player:
 		holder.is_holding = false
-	
+
 	holder = player
 	is_holder_player = is_player
 
@@ -27,9 +27,9 @@ func _process(delta):
 		match holder.get_name():
 			'Player':
 				position = "Yaw/Camera/pickup_pos"
-			'frigideira', 'frigideira2':
+			'fritadeira':
 				position = "holding"
-			'caixacarne':
+			'caixabatata':
 				position = "top"
 	
 	

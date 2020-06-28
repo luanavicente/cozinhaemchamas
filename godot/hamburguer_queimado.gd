@@ -11,7 +11,7 @@ var position
 func pick_up(player,is_player):
 	if in_plate and is_player:
 		holder.is_holding = false
-	
+
 	holder = player
 	is_holder_player = is_player
 
@@ -23,7 +23,6 @@ func pick_up(player,is_player):
 func _process(delta):
 	if in_trash:
 		get_parent().remove_child(self)
-
 	if holder:
 		match holder.get_name():
 			'Player':
@@ -39,6 +38,7 @@ func carry():
 	$CollisionShape.set_disabled(true)
 	holder.carried_object = self
 	self.set_mode(1)
+	in_fryer = false
 	picked_up = true
 
 func leave():

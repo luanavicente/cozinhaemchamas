@@ -12,7 +12,9 @@ var count_hamburguer = 0
 var count_batata = 0
 var entregou = false
 var recipe_file = "cardapio"
-var frigideira
+var frigideira 
+var frigideira2
+var fritadeira
 var mensagem = ""
 var mensagem_frigideira = ""
 var mensagem_frigideira2 = ""
@@ -41,6 +43,8 @@ func _ready():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	change_recipe()
 	frigideira = get_parent().get_node('frigideira')
+	frigideira2 = get_parent().get_node('frigideira2')
+	fritadeira = get_parent().get_node('fritadeira')
 
 func _process(d):
 	self.transform.origin.y = 1.8
@@ -65,17 +69,37 @@ func _process(d):
 		$interaction_text.set_text("")
 	
 	#Mensagens frigideira
-	if frigideira.meat and frigideira.meat.in_fryer:
-			mensagem_frigideira = "Frigideira 1: "
-			if frigideira.meat.get_name() == "hamburguer_queimado" and not frigideira.meat.in_trash:
-				mensagem_frigideira += "O hamburguer queimou. Jogue no lixo! "		
-			elif frigideira.count_frigideira < 300: 
-				mensagem_frigideira += "O hamburguer está fritando!"
-			elif frigideira.count_frigideira > 300 and frigideira.count_frigideira < 420: 
-				mensagem_frigideira +=  "O hamburguer está pronto!"
-			elif frigideira.count_frigideira > 420 and frigideira.count_frigideira < 600: 
-				mensagem_frigideira += "O hamburguer está queimando!"
-			
+	if frigideira.meat and frigideira.meat.get_name() == "hamburguer_queimado" and not frigideira.meat.in_trash:
+			mensagem_frigideira = "Frigideira 1: O hamburguer queimou. Jogue no lixo! "
+	elif frigideira.meat and frigideira.meat.in_fryer:
+		if frigideira.count_frigideira < 300: 
+			mensagem_frigideira = "Frigideira 1: O hamburguer está fritando!"
+		elif frigideira.count_frigideira > 300 and frigideira.count_frigideira < 420: 
+			mensagem_frigideira =  "Frigideira 1: O hamburguer está pronto!"
+		elif frigideira.count_frigideira > 420 and frigideira.count_frigideira < 600: 
+			mensagem_frigideira = "Frigideira 1: O hamburguer está queimando!"
+	
+	#Mensagens frigideira2
+	if frigideira2.meat and frigideira2.meat.get_name() == "hamburguer_queimado" and not frigideira2.meat.in_trash:
+			mensagem_frigideira2 = "Frigideira 2: O hamburguer queimou. Jogue no lixo! "
+	elif frigideira2.meat and frigideira2.meat.in_fryer:
+		if frigideira2.count_frigideira < 300: 
+			mensagem_frigideira2 = "Frigideira 2: O hamburguer está fritando!"
+		elif frigideira2.count_frigideira > 300 and frigideira2.count_frigideira < 420: 
+			mensagem_frigideira2 =  "Frigideira 2: O hamburguer está pronto!"
+		elif frigideira2.count_frigideira > 420 and frigideira2.count_frigideira < 600: 
+			mensagem_frigideira2 = "Frigideira 2: O hamburguer está queimando!"
+
+	#Mensagens fritadeira
+	if fritadeira.fries and fritadeira.fries.get_name() == "batatas_queimadas" and not fritadeira.fries.in_trash:
+			mensagem_fritadeira = "Fritadeira: A batata queimou. Jogue no lixo! "
+	elif fritadeira.fries and fritadeira.fries.in_fryer:
+		if fritadeira.count_fritadeira < 300: 
+			mensagem_fritadeira = "Fritadeira: A batata está fritando!"
+		elif fritadeira.count_fritadeira > 300 and fritadeira.count_fritadeira < 420: 
+			mensagem_fritadeira =  "Fritadeira: A batata está pronta!"
+		elif fritadeira.count_fritadeira > 420 and fritadeira.count_fritadeira < 600: 
+			mensagem_fritadeira = "Fritadeira: A batata está queimando!"
 	#Mensagens de interações
 	if !is_showing_message and $Yaw/Camera/InteractionRay.is_colliding():
 		var x = $Yaw/Camera/InteractionRay.get_collider()
@@ -83,7 +107,7 @@ func _process(d):
 		if x.has_method("pick_up") and carried_object == null:
 			mensagem_interacao = "[V]  Pegar: " + x.get_name()
 		elif x.has_method("drop_it") and carried_object != null:
-			if (x.get_name() == 'frigideira' and not('hamburguer_cru' in carried_object.get_name())) or (x.get_name() == 'prato' and ("cru" in carried_object.get_name() or "queimad" in carried_object.get_name() or "@" in carried_object.get_name())):
+			if ('frigideira' in x.get_name() and not('hamburguer_cru' in carried_object.get_name())) or ('fritadeira' in x.get_name() and not('batatas_cruas' in carried_object.get_name())) or (x.get_name() == 'prato' and ("cru" in carried_object.get_name() or "queimad" in carried_object.get_name() or "@" in carried_object.get_name())):
 				mensagem_interacao = "Não é possível colocar " + carried_object.get_name() + " aqui"
 			else:
 				mensagem_interacao = "[C]  Colocar: " + carried_object.get_name()
@@ -98,12 +122,17 @@ func _process(d):
 	
 	if mensagem_frigideira:
 		mensagem = mensagem_frigideira 
+	if mensagem_frigideira2:
+		mensagem += "\n" + mensagem_frigideira2
+	if mensagem_fritadeira:
+		mensagem += "\n" + mensagem_fritadeira  
 	if mensagem_interacao:
-		mensagem = mensagem + "\n" + mensagem_interacao 
+		mensagem += "\n" + mensagem_interacao 
 	if mensagem_entrega:
 		mensagem = mensagem_entrega 
-		
+			
 	$interaction_text.set_text(mensagem)
+	
 	mensagem = ""
 	mensagem_interacao = ""
 	mensagem_entrega = ""
@@ -172,7 +201,7 @@ func _input(event):
 		if carried_object != null:
 			if $Yaw/Camera/InteractionRay.is_colliding():
 				var x = $Yaw/Camera/InteractionRay.get_collider()
-				if x.get_name() in ['prato','lixo', 'frigideira', 'frigideira2'] and x.has_method("drop_it"):
+				if x.get_name() in ['prato','lixo', 'frigideira', 'frigideira2', 'fritadeira'] and x.has_method("drop_it"):
 					x.drop_it(self,carried_object)
 	
 	# mais comida

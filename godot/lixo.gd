@@ -1,5 +1,6 @@
 extends StaticBody
 
+
 func drop_it(player,object):
 	hold(player,object)
 
