@@ -40,6 +40,7 @@ func carry():
 	self.set_mode(1)
 	in_fryer = false
 	picked_up = true
+	get_parent().is_frying = false
 
 func leave():
 	$CollisionShape.set_disabled(false)
