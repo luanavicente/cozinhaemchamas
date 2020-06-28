@@ -3,8 +3,8 @@
 [ext_resource path="res://floor.tscn" type="PackedScene" id=1]
 [ext_resource path="res://walls.tscn" type="PackedScene" id=2]
 [ext_resource path="res://prato.gd" type="Script" id=3]
-[ext_resource path="res://frigideira.tscn" type="PackedScene" id=4]
 [ext_resource path="res://balcao.tscn" type="PackedScene" id=5]
+[ext_resource path="res://frigideira.tscn" type="PackedScene" id=6]
 [ext_resource path="res://caixabatata.tscn" type="PackedScene" id=7]
 [ext_resource path="res://prato.tscn" type="PackedScene" id=8]
 [ext_resource path="res://lixo.tscn" type="PackedScene" id=9]
@@ -77,11 +77,11 @@ shape = SubResource( 2 )
 [node name="lixo" parent="." instance=ExtResource( 9 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.889, 2.251, 0.569 )
 
+[node name="frigideira" parent="." instance=ExtResource( 6 )]
+transform = Transform( -0.00291799, 0, 0.799995, 0, 0.8, 0, -0.799995, 0, -0.00291799, -5.88987, 5.71108, -0.44731 )
+
+[node name="frigideira2" parent="." instance=ExtResource( 6 )]
+transform = Transform( -0.00291799, 0, 0.799995, 0, 0.8, 0, -0.799995, 0, -0.00291799, -5.88987, 5.71108, -4.85045 )
+
 [node name="position_cardapio" type="Position3D" parent="."]
-transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.6, 6.6, -9.56211 )
-
-[node name="frigideira" parent="." instance=ExtResource( 4 )]
-transform = Transform( -1.30337e-07, 0, 0.8, 0, 0.8, 0, -0.8, 0, -1.30337e-07, -5.6515, 5.711, -0.412002 )
-
-[node name="frigideira2" parent="." instance=ExtResource( 4 )]
-transform = Transform( -1.30337e-07, 0, 0.8, 0, 0.8, 0, -0.8, 0, -1.30337e-07, -5.6515, 5.711, -4.72822 )
+transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 0.6, 6.6, -9 )

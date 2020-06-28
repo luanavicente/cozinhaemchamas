@@ -59,7 +59,13 @@ func change_models(player,object):
 		object.get_parent().remove_child(object)
 		player.is_holding = false
 		player.carried_object = null
-
+	
+	if "@" in on_plate:
+		on_plate = on_plate.substr(1,on_plate.length() - 3)
+	
+	if "@" in put_on_plate:
+		put_on_plate = put_on_plate.substr(1,put_on_plate.length() - 3)
+		
 	var file
 	match on_plate:
 		'hamburguer':
@@ -70,6 +76,8 @@ func change_models(player,object):
 					file = preload("res://hamburguer_queijo.tscn")
 				'tomate':
 					file = preload("res://hamburguer_tomate.tscn")
+				'hamburguer':
+					return
 		'pao':
 			match put_on_plate:
 				'hamburguer':
@@ -78,6 +86,8 @@ func change_models(player,object):
 					file = preload("res://pao_queijo.tscn")
 				'tomate':
 					file = preload("res://pao_tomate.tscn")
+				'pao':
+					return
 		'queijo':
 			match put_on_plate:
 				'hamburguer':
@@ -86,6 +96,8 @@ func change_models(player,object):
 					file = preload("res://pao_queijo.tscn")
 				'tomate':
 					file = preload("res://queijo_tomate.tscn")
+				'queijo':
+					return
 		'tomate':
 			match put_on_plate:
 				'hamburguer':
@@ -94,58 +106,80 @@ func change_models(player,object):
 					file = preload("res://pao_tomate.tscn")
 				'queijo':
 					file = preload("res://queijo_tomate.tscn")
+				'tomate':
+					return
 		'pao_hamburguer':
 			match put_on_plate:
 				'queijo':
 					file = preload("res://pao_hamburguer_queijo.tscn")
 				'tomate':
 					file = preload("res://pao_hamburguer_tomate.tscn")
+				'pao','hamburguer':
+					return
 		'pao_queijo':
 			match put_on_plate:
 				'hamburguer':
 					file = preload("res://pao_hamburguer_queijo.tscn")
 				'tomate':
 					file = preload("res://pao_queijo_tomate.tscn")
+				'pao', 'queijo':
+					return
 		'pao_tomate':
 			match put_on_plate:
 				'hamburguer':
 					file = preload("res://pao_hamburguer_tomate.tscn")
 				'queijo':
 					file = preload("res://pao_queijo_tomate.tscn")
+				'pao', 'tomate':
+					return
 		'hamburguer_tomate':
 			match put_on_plate:
 				'queijo':
 					file = preload("res://hamburguer_queijo_tomate.tscn")
 				'pao':
 					file = preload("res://pao_hamburguer_tomate.tscn")
+				'hamburguer', 'tomate':
+					return
 		'hamburguer_queijo':
 			match put_on_plate:
 				'tomate':
 					file = preload("res://hamburguer_queijo_tomate.tscn")
 				'pao':
 					file = preload("res://pao_hamburguer_queijo.tscn")
+				'hamburguer', 'queijo':
+					return
 		'queijo_tomate':
 			match put_on_plate:
 				'hamburguer':
 					file = preload("res://hamburguer_queijo_tomate.tscn")
 				'pao':
 					file = preload("res://pao_queijo_tomate.tscn")
+				'queijo', 'tomate':
+					return
 		'pao_hamburguer_tomate':
 			match put_on_plate:
 				'queijo':
 					file = preload("res://lanche.tscn")
+				'pao', 'hamburguer', 'tomate':
+					return
 		'pao_hamburguer_queijo':
 			match put_on_plate:
 				'tomate':
 					file = preload("res://lanche.tscn")
+				'pao', 'hamburguer', 'queijo':
+					return
 		'pao_queijo_tomate':
 			match put_on_plate:
 				'hamburguer':
 					file = preload("res://lanche.tscn")
+				'pao', 'queijo', 'tomate':
+					return
 		'hamburguer_queijo_tomate':
 			match put_on_plate:
 				'pao':
 					file = preload("res://lanche.tscn")
+				'hamburguer', 'queijo', 'tomate':
+					return
 
 	#cria o modelo
 	var instance = file.instance()

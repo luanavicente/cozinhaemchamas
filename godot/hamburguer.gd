@@ -2,7 +2,7 @@ extends RigidBody
 
 var picked_up
 var in_plate
-var in_fryer
+var in_fryer = true
 var in_trash = false
 var is_holder_player
 var holder
@@ -28,10 +28,8 @@ func _process(delta):
 		match holder.get_name():
 			'Player':
 				position = "Yaw/Camera/pickup_pos"
-			'prato':
+			'prato', 'frigideira', 'frigideira2':
 				position = "holding"
-			'caixacarne':
-				position = "top"
 	if (picked_up or in_plate) and not in_trash:
 		set_global_transform(holder.get_node(position).get_global_transform())
 		if !is_holder_player:
@@ -42,6 +40,7 @@ func carry():
 	holder.carried_object = self
 	self.set_mode(1)
 	picked_up = true
+	in_fryer = false
 
 func leave():
 	$CollisionShape.set_disabled(false)
